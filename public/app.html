@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>App protegida</title>
+</head>
+<body>
+  <h2>Bienvenida</h2>
+  <div id="contenido"></div>
+  <button onclick="logout()">Cerrar sesión</button>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      window.location.href = '/login.html';
+    } else {
+      fetch('/.netlify/functions/hello', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('contenido').innerText = data.message || 'Acceso concedido';
+      })
+      .catch(() => {
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem('token');
+      window.location.href = '/login.html';
+    }
+  </script>
+</body>
+</html>
