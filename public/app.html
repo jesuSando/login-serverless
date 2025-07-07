@@ -1,50 +1,292 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-    <title>App protegida</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido | Sistema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --error: #ef233c;
+            --success: #4bb543;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border: #dee2e6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            color: var(--primary);
+        }
+        
+        .logo h1 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        
+        .logout-btn:hover {
+            color: var(--primary);
+        }
+        
+        .logout-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .welcome-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .welcome-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+        
+        .welcome-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--primary);
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
+        
+        .welcome-message {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 32px;
+        }
+        
+        .content-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+        
+        .content-box p {
+            font-size: 15px;
+            color: var(--dark);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: var(--gray);
+            background: white;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+            }
+            
+            main {
+                padding: 20px;
+            }
+            
+            .welcome-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <h2>Bienvenido</h2>
-    <div id="contenido"></div>
-    <button onclick="logout()">Cerrar sesión</button>
+    <header>
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+            </svg>
+            <h1>Sistema</h1>
+        </div>
+        
+        <div class="user-info">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <button class="logout-btn" onclick="logout()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Cerrar sesión
+            </button>
+        </div>
+    </header>
+    
+    <main>
+        <div class="welcome-card">
+            <div class="welcome-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+            </div>
+            
+            <h2>Bienvenido</h2>
+            <p class="welcome-message">Has iniciado sesión correctamente en nuestro sistema</p>
+            
+            <div class="content-box" id="contenido">
+                <p>Cargando contenido...</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>Sistema © 2023. Todos los derechos reservados.</p>
+    </footer>
 
     <script>
         function isTokenExpired(token) {
             if (!token) return true;
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            const now = Math.floor(Date.now() / 1000);
-            return payload.exp < now;
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const now = Math.floor(Date.now() / 1000);
+                return payload.exp < now;
+            } catch (e) {
+                return true;
+            }
         }
-
-        const token = localStorage.getItem('token');
-
-        if (isTokenExpired(token)) {
-            localStorage.removeItem('token');
-            window.location.href = '/login.html';
-        } else {
-            fetch('/.netlify/functions/hello', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('contenido').innerText = data.message || 'Acceso concedido';
-                })
-                .catch(() => {
-                    localStorage.removeItem('token');
-                    window.location.href = '/login.html';
-                });
-        }
-
 
         function logout() {
             localStorage.removeItem('token');
-            window.location.href = '/login.html';
+            window.location.href = '/index.html';
         }
+
+        // Mostrar inicial del usuario
+        function getUsernameInitial() {
+            const token = localStorage.getItem('token');
+            if (!token) return 'U';
+            
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                return payload.username ? payload.username.charAt(0).toUpperCase() : 'U';
+            } catch (e) {
+                return 'U';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            const userAvatar = document.getElementById('userAvatar');
+            
+            // Mostrar inicial del usuario
+            userAvatar.textContent = getUsernameInitial();
+            
+            if (isTokenExpired(token)) {
+                localStorage.removeItem('token');
+                window.location.href = '/index.html';
+                return;
+            }
+
+            // Mostrar estado de carga
+            const contenido = document.getElementById('contenido');
+            contenido.innerHTML = '<p>Cargando contenido...</p>';
+
+            fetch('/.netlify/functions/hello', {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Error de autenticación');
+                return res.json();
+            })
+            .then(data => {
+                contenido.innerHTML = `<p>${data.message || 'Acceso concedido'}</p>`;
+            })
+            .catch(() => {
+                localStorage.removeItem('token');
+                window.location.href = '/index.html';
+            });
+        });
     </script>
 </body>
-
 </html>

@@ -1,34 +1,214 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión | Sistema</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --error: #ef233c;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --border: #dee2e6;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f7ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .login-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 420px;
+      padding: 40px;
+      margin: 20px;
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo svg {
+      width: 48px;
+      height: 48px;
+      color: var(--primary);
+    }
+    
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-top: 16px;
+      color: var(--dark);
+    }
+    
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      text-align: center;
+      color: var(--dark);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .error-message {
+      color: var(--error);
+      font-size: 14px;
+      margin-top: 16px;
+      text-align: center;
+      min-height: 20px;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--gray);
+    }
+    
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>Login</h2>
-  <form id="loginForm">
-    <input type="text" id="username" placeholder="Usuario" required />
-    <input type="password" id="password" placeholder="Contraseña" required />
-    <button type="submit">Ingresar</button>
-  </form>
-  <div id="error"></div>
+  <div class="login-container">
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+      </svg>
+      <h1>Sistema</h1>
+    </div>
+    
+    <h2>Iniciar Sesión</h2>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" placeholder="Ingresa tu usuario" required />
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="Ingresa tu contraseña" required />
+      </div>
+      
+      <button type="submit">Ingresar</button>
+      
+      <div id="error" class="error-message"></div>
+    </form>
+    
+    <div class="footer">
+      ¿Olvidaste tu contraseña? <a href="#">Recuperar</a>
+    </div>
+  </div>
 
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
+      const errorElement = document.getElementById('error');
 
-      const res = await fetch('/.netlify/functions/login', {
-        method: 'POST',
-        body: JSON.stringify({ username, password }),
-      });
+      // Mostrar estado de carga
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.textContent;
+      submitButton.textContent = 'Ingresando...';
+      submitButton.disabled = true;
+      errorElement.textContent = '';
 
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem('token', data.token);
-        window.location.href = '/app.html';
-      } else {
-        document.getElementById('error').textContent = data.error || 'Error';
+      try {
+        const res = await fetch('/.netlify/functions/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.token);
+          window.location.href = '/app.html';
+        } else {
+          errorElement.textContent = data.error || 'Credenciales incorrectas. Por favor intenta nuevamente.';
+        }
+      } catch (error) {
+        errorElement.textContent = 'Error de conexión. Por favor intenta más tarde.';
+      } finally {
+        submitButton.textContent = originalButtonText;
+        submitButton.disabled = false;
       }
     });
   </script>
