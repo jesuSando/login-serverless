@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>App protegida</title>
+    <title>App protegida</title>
 </head>
+
 <body>
-  <h2>Bienvenida</h2>
-  <div id="contenido"></div>
-  <button onclick="logout()">Cerrar sesión</button>
+    <h2>Bienvenido</h2>
+    <div id="contenido"></div>
+    <button onclick="logout()">Cerrar sesión</button>
 
-  <script>
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      window.location.href = '/login.html';
-    } else {
-      fetch('/.netlify/functions/hello', {
-        headers: {
-          Authorization: 'Bearer ' + token,
+    <script>
+        function isTokenExpired(token) {
+            if (!token) return true;
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const now = Math.floor(Date.now() / 1000);
+            return payload.exp < now;
         }
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('contenido').innerText = data.message || 'Acceso concedido';
-      })
-      .catch(() => {
-        localStorage.removeItem('token');
-        window.location.href = '/login.html';
-      });
-    }
 
-    function logout() {
-      localStorage.removeItem('token');
-      window.location.href = '/login.html';
-    }
-  </script>
+        const token = localStorage.getItem('token');
+
+        if (isTokenExpired(token)) {
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        } else {
+            fetch('/.netlify/functions/hello', {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('contenido').innerText = data.message || 'Acceso concedido';
+                })
+                .catch(() => {
+                    localStorage.removeItem('token');
+                    window.location.href = '/login.html';
+                });
+        }
+
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        }
+    </script>
 </body>
+
 </html>
